@@ -1,24 +1,31 @@
 const problemEl = document.getElementById("problem");
 const fields = document.getElementsByClassName("field");
 
-function clickedRight(problem, i) {
-    console.log(problem, problem.ans[i]);
+const reversedOperators = ["-", "+", "/", "*"];
+const operators = ["+", "-", "*", "/"];
+
+function clickedRight(problem, i, time) {
+    console.log(problem, problem.ans[i], time + "ms");
+    displayRandomProblem();
 }
 
-function clickedWrong(problem, i) {
-    console.error(problem, problem.ans[i]);
-
+function clickedWrong(problem, i, time) {
+    console.error(problem, problem.ans[i], time + "ms");
+    toggleVisibility(false);
 }
 
-function displayProblem(problem) {
+function displayRandomProblem() {
+    const problem = createProblem();
+    const time = now();
+
     problemEl.innerHTML = problem.sol;
     for (let i = 0; i < problem.ans.length; i++) {
         fields[i].innerHTML = problem.ans[i].calc;
         fields[i].onclick = () => {
             if (problem.ans[i].sol === problem.sol) {
-                clickedRight(problem, i);
+                clickedRight(problem, i, now() - time);
             } else {
-                clickedWrong(problem, i);
+                clickedWrong(problem, i, now() - time);
             }
         }
     }
@@ -29,7 +36,11 @@ function createProblem() {
 
     obj.ans[0] = createAnsObj(obj.sol);
     for (let i = 1; i < fields.length; i++) { // starts at 1
-        obj.ans[i] = createAnsObj(getRandomInt(30) + obj.sol);
+        let num = 0;
+        while (num === 0) {
+            num = getRandomInt(30) + obj.sol;
+        }
+        obj.ans[i] = createAnsObj(num);
     }
     shuffleArr(obj.ans);
 
@@ -52,7 +63,7 @@ function createAnsObj(solution) {
 
     const calcArr = createCalculationArr(solution);
 
-    if (Math.random() > 0.5) {
+    if (Math.random() > 0.69) {
         let i = Math.random() >= 0.5 ? 0 : 2; // index of calc arr
         const calcArr2 = createCalculationArr(calcArr[i]);
         calcArr[i] = "%s"; // placeholder
@@ -71,12 +82,6 @@ function createAnsObj(solution) {
 
 function replaceStringAndOperator(str) {
     return str.replaceAll("+ -", "- ").replaceAll("- -", "+ ")
-}
-
-const reversedOperators = ["-", "+", "/", "*"];
-const operators = ["+", "-", "*", "/"];
-function getRandomOperator() {
-    return operators[Math.floor(Math.random() * 4)];
 }
 
 function calculateOperation(n1, n2, op) {
@@ -121,12 +126,12 @@ function createCalculationArr(solution, operatorIndex) {
         return createCalculationArr(solution, operatorIndex);
     }
 
+    console.log(solution, n1, n2, operatorIndex);
     return [n1, operators[operatorIndex], n2];
 }
 
-
 function getRandomInt(max) {
-    max = max ? max : 150; // defaults to 150
+    max = max ? Math.abs(max) : 150; // defaults to 150
     // between -max and max without 0!!
     let rand = Math.floor(Math.random() * max) + 1;
     return Math.random() >= 0.5 ? rand : -1 * rand;
@@ -143,5 +148,3 @@ for (let j = 0; j < 4; j++) {
     }
     console.log(operators[j] + ": " + ((performance.now() - time)/count));
 }*/
-
-
