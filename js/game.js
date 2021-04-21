@@ -1,11 +1,22 @@
 const problemEl = document.getElementById("problem");
+const scoreEl = document.getElementById("score");
 const fields = document.getElementsByClassName("field");
 const progressbar = document.getElementById("progressbar");
 
 const reversedOperators = ["-", "+", "/", "*"];
 const operators = ["+", "-", "*", "/"];
-
 const maxTimeMs = 20_000;
+
+let history;
+let score;
+function startGame() {
+    score = 0;
+    history = [];
+
+    toggleVisibility(true);
+    startUpdatingProgressbar();
+    displayRandomProblem();
+}
 
 let startTime = now();
 function resetStartTime() {
@@ -36,6 +47,8 @@ function stopUpdatingProgressbar() {
 function clickedRight(problem, i) {
     console.log(problem, problem.ans[i], problem.time + "ms");
     displayRandomProblem();
+    score++;
+    score.innerHTML = score;
 }
 
 function clickedWrong(problem, i) {
@@ -52,6 +65,7 @@ function lost(reason) {
     if (!reason) return;
 
     console.log(reason);
+    console.log(history)
 }
 
 function displayRandomProblem() {
@@ -63,6 +77,8 @@ function displayRandomProblem() {
         fields[i].innerHTML = problem.ans[i].calc;
         fields[i].onclick = () => {
             problem.time = now() - time;
+            problem.clicked = i;
+            history.push(problem);
             if (problem.time > maxTimeMs) {
                 timeExpired();
                 return;
