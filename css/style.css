@@ -67,6 +67,16 @@ footer a {
     background-color: green;
 }
 
+.score-container {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+
+.score {
+    margin-left: 3px;
+}
+
 #progressbar {
     height: 24px;
     color: green;

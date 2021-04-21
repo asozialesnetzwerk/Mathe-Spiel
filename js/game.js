@@ -13,8 +13,9 @@ function startGame() {
     score = 0;
     history = [];
 
-    toggleVisibility(true);
+    displayScore();
     startUpdatingProgressbar();
+    toggleVisibility(true);
     displayRandomProblem();
 }
 
@@ -44,11 +45,15 @@ function stopUpdatingProgressbar() {
     }
 }
 
+function displayScore() {
+    scoreEl.innerHTML = " " + score;
+}
+
 function clickedRight(problem, i) {
     console.log(problem, problem.ans[i], problem.time + "ms");
     displayRandomProblem();
     score++;
-    score.innerHTML = score;
+    displayScore();
 }
 
 function clickedWrong(problem, i) {
@@ -179,14 +184,24 @@ function calculateOperation(n1, n2, op) {
     return obj;
 }
 
+function getMaxForRandom(operatorIndex, solution) {
+    switch (operatorIndex) {
+        // if multiply n2 has to be smaller or equal than the solution, else it isn't important (halves the average time needed)
+        case 2: return solution;
+        // if division everything above is too complicated:
+        case 3: return 15;
+        // otherwise the default specified in the getRandomInt function is used
+        default: return false;
+    }
+}
+
 // returns arr of 2 numbers with operator in between
 function createCalculationArr(solution, operatorIndex) {
     // if operator index is defined use it else use random one
     operatorIndex = operatorIndex ? operatorIndex :  Math.floor(Math.random() * 4);
 
     const operator = reversedOperators[operatorIndex];
-    // if multiply n2 has to be smaller or equal than the solution, else it isn't important (halves the average time needed)
-    const n2 = getRandomInt(operatorIndex === 2 ? solution : false);
+    const n2 = getRandomInt(getMaxForRandom(operatorIndex, solution));
     const n1 = calculateOperation(solution, n2, operator).sol;
 
     if (Math.floor(n1) !== n1) {
@@ -199,7 +214,7 @@ function createCalculationArr(solution, operatorIndex) {
 }
 
 function getRandomInt(max) {
-    max = max ? Math.abs(max) : 150; // defaults to 150
+    max = max ? Math.abs(max) : 42 + score; // defaults to 42 + 2 * score
     // between -max and max without 0!!
     let rand = Math.floor(Math.random() * max) + 1;
     return Math.random() >= 0.5 ? rand : -1 * rand;
