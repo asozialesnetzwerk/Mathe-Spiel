@@ -14,8 +14,11 @@ function resetStartTime() {
 }
 
 function updateProgressbar() {
-    const percentage = 100 * ((now() - startTime)/maxTimeMs);
-    progressbar.style.width =  Math.max(0.1, Math.min(100, percentage)) + "%";
+    const percentage = Math.max(0.1, Math.min(100, 100 * ((now() - startTime)/maxTimeMs)));
+    progressbar.style.width =  percentage + "%";
+    if (percentage === 100) {
+        timeExpired();
+    }
 }
 
 let intervalNum;
@@ -35,9 +38,20 @@ function clickedRight(problem, i) {
     displayRandomProblem();
 }
 
-function clickedWrong(problem, i, time) {
+function clickedWrong(problem, i) {
     console.error(problem, problem.ans[i], problem.time + "ms");
+    lost(`"${problem.ans[i].calc}" ist falsch. "${getCorrect(problem).calc}" wäre richtig gewesen, da es ${problem.sol} ist.`);
+}
+function timeExpired() {
+    lost("Zeit abgelaufen.");
+}
+function lost(reason) {
     toggleVisibility(false);
+    stopUpdatingProgressbar();
+
+    if (!reason) return;
+
+    console.log(reason);
 }
 
 function displayRandomProblem() {
@@ -49,6 +63,10 @@ function displayRandomProblem() {
         fields[i].innerHTML = problem.ans[i].calc;
         fields[i].onclick = () => {
             problem.time = now() - time;
+            if (problem.time > maxTimeMs) {
+                timeExpired();
+                return;
+            }
             if (problem.ans[i].sol === problem.sol) {
                 clickedRight(problem, i);
             } else {
@@ -72,6 +90,13 @@ function createProblem() {
     shuffleArr(obj.ans);
 
     return obj;
+}
+function getCorrect(problem) {
+    for (const ans of problem.ans) {
+        if (ans.sol === problem.sol) {
+            return ans;
+        }
+    }
 }
 
 function shuffleArr(arr) {
