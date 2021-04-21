@@ -22,14 +22,21 @@ footer a {
 }
 
 #problem {
-    font-size: 26px;
+    font-size: 32px;
     text-align: center;
+}
+
+.button-container {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-bottom: 20px;
 }
 
 #game {
     display: none;
     flex-wrap: nowrap;
-    justify-content: space-between;
     flex-direction: column;
 }
 
@@ -42,10 +49,28 @@ footer a {
 .field {
     padding: 5px;
     margin: 2px;
-    border: 2px darkred;
+    border: 2px grey;
     text-align: center;
     font-size: 33px;
     height: auto;
+}
+
+.grey-bg {
+    background-color: grey;
+}
+
+.red-bg {
+    background-color: darkred;
+}
+
+.green-bg {
+    background-color: green;
+}
+
+#progressbar {
+    height: 24px;
+    color: green;
+    width: 1%;
 }
 
 @media (orientation:landscape) {
@@ -53,7 +78,7 @@ footer a {
         flex-direction: row;
     }
     .field {
-        max-width: 48%;
+        width: 48%;
     }
 }
 
@@ -63,6 +88,7 @@ footer a {
     }
 
     .field {
-        width: 100%;
+        width: 70%;
+        margin: 5px auto;
     }
 }

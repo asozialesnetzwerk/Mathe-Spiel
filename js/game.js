@@ -1,31 +1,58 @@
 const problemEl = document.getElementById("problem");
 const fields = document.getElementsByClassName("field");
+const progressbar = document.getElementById("progressbar");
 
 const reversedOperators = ["-", "+", "/", "*"];
 const operators = ["+", "-", "*", "/"];
 
-function clickedRight(problem, i, time) {
-    console.log(problem, problem.ans[i], time + "ms");
+const maxTimeMs = 20_000;
+
+let startTime = now();
+function resetStartTime() {
+    startTime = now();
+    return startTime;
+}
+
+function updateProgressbar() {
+    const percentage = 100 * ((now() - startTime)/maxTimeMs);
+    progressbar.style.width =  Math.max(0.1, Math.min(100, percentage)) + "%";
+}
+
+let intervalNum;
+function startUpdatingProgressbar() {
+    if (intervalNum) stopUpdatingProgressbar();
+    intervalNum = window.setInterval(updateProgressbar, 50);
+}
+function stopUpdatingProgressbar() {
+    if (intervalNum) {
+        window.clearInterval(intervalNum);
+        intervalNum = false;
+    }
+}
+
+function clickedRight(problem, i) {
+    console.log(problem, problem.ans[i], problem.time + "ms");
     displayRandomProblem();
 }
 
 function clickedWrong(problem, i, time) {
-    console.error(problem, problem.ans[i], time + "ms");
+    console.error(problem, problem.ans[i], problem.time + "ms");
     toggleVisibility(false);
 }
 
 function displayRandomProblem() {
     const problem = createProblem();
-    const time = now();
+    const time = resetStartTime();
 
     problemEl.innerHTML = problem.sol;
     for (let i = 0; i < problem.ans.length; i++) {
         fields[i].innerHTML = problem.ans[i].calc;
         fields[i].onclick = () => {
+            problem.time = now() - time;
             if (problem.ans[i].sol === problem.sol) {
-                clickedRight(problem, i, now() - time);
+                clickedRight(problem, i);
             } else {
-                clickedWrong(problem, i, now() - time);
+                clickedWrong(problem, i);
             }
         }
     }
