@@ -37,7 +37,7 @@ function updateProgressbar() {
 let intervalNum;
 function startUpdatingProgressbar() {
     if (intervalNum) stopUpdatingProgressbar();
-    intervalNum = window.setInterval(updateProgressbar, 20);
+    intervalNum = window.setInterval(updateProgressbar, 1000/60);
 }
 
 function stopUpdatingProgressbar() {
@@ -48,14 +48,14 @@ function stopUpdatingProgressbar() {
 }
 
 function clickedRight(problem, i) {
-    console.log(problem, problem.ans[i], problem.time + "ms");
+    //console.log(problem, problem.ans[i], problem.time + "ms");
     displayRandomProblem();
     score += problem.score;
     displayScore(score);
 }
 
 function clickedWrong(problem, i) {
-    console.error(problem, problem.ans[i], problem.time + "ms");
+    //console.error(problem, problem.ans[i], problem.time + "ms");
     lost(`„${problem.ans[i].calc}” ist falsch.`);
 }
 function timeExpired() {
@@ -75,7 +75,6 @@ function lost(reason) {
         window.localStorage.setItem("highscore", score);
     }
 
-    console.log(history);
     //save history:
     writeObjToLocalStorage("history", history);
     displayHistoryList();
@@ -213,7 +212,7 @@ function createCalculationArr(solution, operatorIndex) {
         return createCalculationArr(solution, operatorIndex);
     }
 
-    console.log(solution, n1, n2, operatorIndex);
+    //console.log(solution, n1, n2, operatorIndex);
     return [n1, operators[operatorIndex], n2];
 }
 

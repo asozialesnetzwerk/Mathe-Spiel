@@ -59,7 +59,7 @@ function displayHistoryList() {
     historyListEl.innerHTML = "";
     const historyArr = getArrFromLocalStorage("history");
 
-    console.log(historyArr);
+    //console.log(historyArr);
     for (const problem of historyArr) {
         const li = document.createElement("li");
         const solution = problem.sol;
