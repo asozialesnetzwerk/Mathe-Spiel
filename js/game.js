@@ -4,7 +4,6 @@ const progressbar = document.getElementById("progressbar");
 
 const reversedOperators = ["-", "+", "/", "*"];
 const operators = ["+", "-", "*", "/"];
-const maxTimeMs = 20_000;
 
 let history;
 let score = getIntFromLocalStorage("score");
@@ -36,7 +35,7 @@ function updateProgressbar() {
 let intervalNum;
 function startUpdatingProgressbar() {
     if (intervalNum) stopUpdatingProgressbar();
-    intervalNum = window.setInterval(updateProgressbar, 50);
+    intervalNum = window.setInterval(updateProgressbar, 20);
 }
 
 function stopUpdatingProgressbar() {

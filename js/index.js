@@ -1,6 +1,7 @@
 const gameEl = document.getElementById("game");
 const menuEl = document.getElementById("menu");
 
+const maxTimeMs = 20_000;
 
 function toggleVisibility(showGame) {
     if (showGame) {
@@ -66,20 +67,20 @@ function displayHistoryList() {
         const clicked = problem.ans[problem.clicked];
 
         let colorClass;
-        let wrongAnswers = [];
-        let correctAns = {};
         if (problem.score) { // ans was correct:
-            correctAns = clicked;
             colorClass = "green";
         } else {
-            for (const ans of problem.ans) {
-                if (ans.sol === solution) {
-                    correctAns = ans;
-                } else {
-                    wrongAnswers.push(`<b class="red">${ans.calc} = ${ans.sol}</b>`);
-                }
-            }
             colorClass = "red";
+        }
+
+        let wrongAnswers = [];
+        let correctAns = {};
+        for (const ans of problem.ans) {
+            if (ans.sol === solution) {
+                correctAns = ans;
+            } else {
+                wrongAnswers.push(`<b class="red">${ans.calc} = ${ans.sol}</b>`);
+            }
         }
 
         li.innerHTML = `<p>
@@ -88,8 +89,8 @@ function displayHistoryList() {
             Richtige Antwort:  <b class="green">${correctAns.calc} = ${correctAns.sol}</b><br>
             Falsche Antworten: ${wrongAnswers.join(", ")}<br>
             
-            Zeit:              <b>${time}ms</b><br>
-            Punkte:            <b>${score}</b><br>
+            Zeit:              <b class="${colorClass}">${time/1000}s</b> / ${maxTimeMs/1000}s<br>
+            Punkte:            <b class="${colorClass}">${score}</b><br>
             </p>
         `;
 
