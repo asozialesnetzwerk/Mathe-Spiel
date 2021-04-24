@@ -74,6 +74,11 @@ footer a {
     margin-bottom: 10px;
 }
 
+#history-list {
+    overflow: auto;
+    height: 30rem;
+}
+
 /* for history list to color elements: */
 .red {
     color: red;
