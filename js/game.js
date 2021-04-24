@@ -1,6 +1,7 @@
 const problemEl = document.getElementById("problem");
 const fields = document.getElementsByClassName("field");
 const progressbar = document.getElementById("progressbar");
+const snackBar = document.getElementById("snackbar");
 
 const reversedOperators = ["-", "+", "/", "*"];
 const operators = ["+", "-", "*", "/"];
@@ -55,7 +56,7 @@ function clickedRight(problem, i) {
 
 function clickedWrong(problem, i) {
     console.error(problem, problem.ans[i], problem.time + "ms");
-    lost(`"${problem.ans[i].calc}" ist falsch. "${getCorrect(problem).calc}" wäre richtig gewesen, da es ${problem.sol} ist.`);
+    lost(`„${problem.ans[i].calc}” ist falsch.`);
 }
 function timeExpired() {
     lost("Zeit abgelaufen.");
@@ -79,8 +80,8 @@ function lost(reason) {
     writeObjToLocalStorage("history", history);
     displayHistoryList();
 
-    console.log(reason);
-    console.log(history)
+    // display reason:
+    displaySnackBar(reason);
 }
 
 function displayRandomProblem() {
@@ -228,6 +229,16 @@ function getRandomInt(max) {
     // between -max and max without 0!!
     let rand = Math.floor(Math.random() * max) + 1;
     return Math.random() >= 0.5 ? rand : -1 * rand;
+}
+
+function displaySnackBar(text) {
+    // set the text:
+    snackBar.innerHTML = text;
+    // Add the "show" class to DIV
+    snackBar.classList.add("show");
+
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(() => snackBar.classList.remove("show"), 3000);
 }
 
 /* //benchmarking calculation creation:
