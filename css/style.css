@@ -132,6 +132,11 @@ footer a {
         width: 70%;
         margin: 5px auto;
     }
+
+    #game {
+        top: 50%;
+        transform: translateY(50%);
+    }
 }
 
 
