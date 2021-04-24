@@ -124,13 +124,6 @@ function createProblem() {
 
     return obj;
 }
-function getCorrect(problem) {
-    for (const ans of problem.ans) {
-        if (ans.sol === problem.sol) {
-            return ans;
-        }
-    }
-}
 
 function shuffleArr(arr) {
     for (let i = 0; i < arr.length; i++) {
