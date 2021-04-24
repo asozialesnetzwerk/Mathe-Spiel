@@ -91,7 +91,7 @@ function displayHistoryList() {
             Richtige Antwort:  <b class="green">${correctAns.calc} = ${correctAns.sol}</b><br>
             Falsche Antworten: ${wrongAnswers.join(", ")}<br>
             
-            Zeit:              <b class="${colorClass}">${time/1000}s</b> / ${maxTimeMs/1000}s<br>
+            Zeit:              <b class="${time < maxTimeMs ? "green" : "red"}">${time/1000}s</b> / ${maxTimeMs/1000}s<br>
             Punkte:            <b class="${colorClass}">${score}</b><br>
             </p>
         `;
