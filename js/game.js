@@ -192,7 +192,7 @@ function getMaxForRandom(operatorIndex, solution) {
         // if multiply n2 has to be smaller or equal than the solution, else it isn't important (halves the average time needed)
         case 2: return solution;
         // if division everything above is too complicated:
-        case 3: return 15;
+        case 3: return 12;
         // otherwise the default specified in the getRandomInt function is used
         default: return false;
     }
