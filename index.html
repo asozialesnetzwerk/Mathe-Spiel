@@ -14,7 +14,9 @@
 </head>
 <body>
 <div id="menu">
-    <input type="button" onclick="startGame()" value="Starte Spiel!">
+    <div class="score-container">Höchstpunktzahl: <div class="score highscore"></div></div>
+    <div class="score-container">Punktzahl: <div class="score normal-score"></div></div>
+    <input type="button" class="start-button" onclick="startGame()" value="Starte Spiel!">
 </div>
 
 <div id="game">
@@ -29,7 +31,7 @@
             <b class="field red-bg"></b>
         </div>
     </div>
-    <div class="score-container">Punkte: <div id="score" class="score"></div></div>
+    <div class="score-container">Punktzahl: <div class="score normal-score"></div></div>
     <div class="grey-bg" style="padding: 1px">
         <div id="progressbar" class="green-bg"></div>
     </div>

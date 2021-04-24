@@ -1,6 +1,7 @@
 * {
     color: #EFEFEF;
     font-size: 20px;
+    background: #000000;
 }
 
 body {
@@ -56,7 +57,7 @@ footer a {
 }
 
 .grey-bg {
-    background-color: grey;
+    background-color: #333;
 }
 
 .red-bg {
@@ -81,6 +82,21 @@ footer a {
     height: 24px;
     color: green;
     width: 1%;
+}
+
+.start-button {
+    border-color: darkred;
+    border-radius: 15px;
+    border-width: 1px;
+
+    background-color: #333;
+
+    padding: 10px;
+}
+
+#menu {
+    display: flex;
+    flex-direction: column;
 }
 
 @media (orientation:landscape) {

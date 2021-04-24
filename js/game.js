@@ -1,5 +1,4 @@
 const problemEl = document.getElementById("problem");
-const scoreEl = document.getElementById("score");
 const fields = document.getElementsByClassName("field");
 const progressbar = document.getElementById("progressbar");
 
@@ -8,12 +7,13 @@ const operators = ["+", "-", "*", "/"];
 const maxTimeMs = 20_000;
 
 let history;
-let score;
+let score = getIntFromLocalStorage("score");
+
 function startGame() {
     score = 0;
     history = [];
 
-    displayScore();
+    displayScore(score);
     startUpdatingProgressbar();
     toggleVisibility(true);
     displayRandomProblem();
@@ -45,15 +45,11 @@ function stopUpdatingProgressbar() {
     }
 }
 
-function displayScore() {
-    scoreEl.innerHTML = " " + score;
-}
-
 function clickedRight(problem, i) {
     console.log(problem, problem.ans[i], problem.time + "ms");
     displayRandomProblem();
-    score++;
-    displayScore();
+    score += history.length + Math.ceil( 9 * ((maxTimeMs - problem.time)/maxTimeMs));
+    displayScore(score);
 }
 
 function clickedWrong(problem, i) {
@@ -63,11 +59,19 @@ function clickedWrong(problem, i) {
 function timeExpired() {
     lost("Zeit abgelaufen.");
 }
+
 function lost(reason) {
     toggleVisibility(false);
     stopUpdatingProgressbar();
 
     if (!reason) return;
+
+    //save score:
+    window.localStorage.setItem("score", score);
+    const highscore = getIntFromLocalStorage("highscore");
+    if (score > highscore) {
+        window.localStorage.setItem("highscore", score);
+    }
 
     console.log(reason);
     console.log(history)
@@ -143,7 +147,6 @@ function createAnsObj(solution) {
 
         obj.calc = calcArr.join(" ").replace("%s", "(" + calcArr2.join(" ") + ")")
 
-
     } else {
         obj.calc = calcArr.join(" ");
     }
@@ -214,7 +217,7 @@ function createCalculationArr(solution, operatorIndex) {
 }
 
 function getRandomInt(max) {
-    max = max ? Math.abs(max) : 42 + score; // defaults to 42 + 2 * score
+    max = max ? Math.abs(max) : 42 + history.length; // defaults to 42 + 2 * history.length
     // between -max and max without 0!!
     let rand = Math.floor(Math.random() * max) + 1;
     return Math.random() >= 0.5 ? rand : -1 * rand;
