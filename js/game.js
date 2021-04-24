@@ -28,6 +28,7 @@ function updateProgressbar() {
     const percentage = Math.max(0.1, Math.min(100, 100 * ((now() - startTime)/maxTimeMs)));
     progressbar.style.width =  percentage + "%";
     if (percentage === 100) {
+        history[history.length - 1].time = maxTimeMs;
         timeExpired();
     }
 }
@@ -73,6 +74,7 @@ function lost(reason) {
         window.localStorage.setItem("highscore", score);
     }
 
+    console.log(history);
     //save history:
     writeObjToLocalStorage("history", history);
     displayHistoryList();
@@ -85,13 +87,12 @@ function displayRandomProblem() {
     const problem = createProblem();
     const time = resetStartTime();
 
-    problemEl.innerHTML = problem.sol;
+    problemEl.innerHTML = problem.sol + " = ?";
     for (let i = 0; i < problem.ans.length; i++) {
         fields[i].innerHTML = problem.ans[i].calc;
         fields[i].onclick = () => {
             problem.time = now() - time;
             problem.clicked = i;
-            history.push(problem);
             if (problem.time > maxTimeMs) {
                 timeExpired();
                 return;
@@ -104,6 +105,7 @@ function displayRandomProblem() {
             }
         }
     }
+    history.push(problem);
 }
 
 function createProblem() {

@@ -1,7 +1,7 @@
 const gameEl = document.getElementById("game");
 const menuEl = document.getElementById("menu");
 
-const maxTimeMs = 20_000;
+const maxTimeMs = 10_000;
 
 function toggleVisibility(showGame) {
     if (showGame) {
@@ -59,12 +59,14 @@ function displayHistoryList() {
     historyListEl.innerHTML = "";
     const historyArr = getArrFromLocalStorage("history");
 
+    console.log(historyArr);
     for (const problem of historyArr) {
         const li = document.createElement("li");
         const solution = problem.sol;
-        const time = Math.floor(problem.time ? problem.time : maxTimeMs);
+        const time = Math.round(problem.time ? problem.time : maxTimeMs);
         const score = problem.score ? problem.score : 0;
-        const clicked = problem.ans[problem.clicked];
+        const clicked = typeof problem.clicked === "undefined" ? null : problem.ans[problem.clicked];
+        const clickedStr = clicked === null ? " - " : `${clicked.calc} = ${clicked.sol}`;
 
         let colorClass;
         if (problem.score) { // ans was correct:
@@ -85,7 +87,7 @@ function displayHistoryList() {
 
         li.innerHTML = `<p>
             Aufgabe:           <b>${solution}</b><br>
-            Antwort:           <b class="${colorClass}">${clicked.calc} = ${clicked.sol}</b><br>
+            Antwort:           <b class="${colorClass}">${clickedStr}</b><br>
             Richtige Antwort:  <b class="green">${correctAns.calc} = ${correctAns.sol}</b><br>
             Falsche Antworten: ${wrongAnswers.join(", ")}<br>
             
