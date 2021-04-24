@@ -38,6 +38,7 @@ function startUpdatingProgressbar() {
     if (intervalNum) stopUpdatingProgressbar();
     intervalNum = window.setInterval(updateProgressbar, 50);
 }
+
 function stopUpdatingProgressbar() {
     if (intervalNum) {
         window.clearInterval(intervalNum);
@@ -48,7 +49,7 @@ function stopUpdatingProgressbar() {
 function clickedRight(problem, i) {
     console.log(problem, problem.ans[i], problem.time + "ms");
     displayRandomProblem();
-    score += history.length + Math.ceil( 9 * ((maxTimeMs - problem.time)/maxTimeMs));
+    score += problem.score;
     displayScore(score);
 }
 
@@ -73,6 +74,10 @@ function lost(reason) {
         window.localStorage.setItem("highscore", score);
     }
 
+    //save history:
+    writeObjToLocalStorage("history", history);
+    displayHistoryList();
+
     console.log(reason);
     console.log(history)
 }
@@ -93,6 +98,7 @@ function displayRandomProblem() {
                 return;
             }
             if (problem.ans[i].sol === problem.sol) {
+                problem.score = history.length + Math.ceil( 9 * ((maxTimeMs - problem.time)/maxTimeMs));
                 clickedRight(problem, i);
             } else {
                 clickedWrong(problem, i);

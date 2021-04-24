@@ -35,3 +35,66 @@ function displayScore(score) {
 }
 
 displayScore(getIntFromLocalStorage("score"));
+
+function writeObjToLocalStorage(key, obj) {
+    localStorage.setItem(key, JSON.stringify(obj));
+}
+
+function getArrFromLocalStorage(key) {
+    const arr = localStorage.getItem(key);
+    if (arr === null) {
+        return [];
+    }
+    const obj = JSON.parse(arr);
+    if (Array.isArray(obj)) {
+        return obj;
+    } else {
+        return [];
+    }
+}
+
+const historyListEl = document.getElementById("history-list");
+function displayHistoryList() {
+    historyListEl.innerHTML = "";
+    const historyArr = getArrFromLocalStorage("history");
+
+    for (const problem of historyArr) {
+        const li = document.createElement("li");
+        const solution = problem.sol;
+        const time = Math.floor(problem.time ? problem.time : maxTimeMs);
+        const score = problem.score ? problem.score : 0;
+        const clicked = problem.ans[problem.clicked];
+
+        let colorClass;
+        let wrongAnswers = [];
+        let correctAns = {};
+        if (problem.score) { // ans was correct:
+            correctAns = clicked;
+            colorClass = "green";
+        } else {
+            for (const ans of problem.ans) {
+                if (ans.sol === solution) {
+                    correctAns = ans;
+                } else {
+                    wrongAnswers.push(`<b class="red">${ans.calc} = ${ans.sol}</b>`);
+                }
+            }
+            colorClass = "red";
+        }
+
+        li.innerHTML = `<p>
+            Aufgabe:           <b>${solution}</b><br>
+            Antwort:           <b class="${colorClass}">${clicked.calc} = ${clicked.sol}</b><br>
+            Richtige Antwort:  <b class="green">${correctAns.calc} = ${correctAns.sol}</b><br>
+            Falsche Antworten: ${wrongAnswers.join(", ")}<br>
+            
+            Zeit:              <b>${time}ms</b><br>
+            Punkte:            <b>${score}</b><br>
+            </p>
+        `;
+
+        historyListEl.appendChild(li);
+    }
+}
+
+displayHistoryList();

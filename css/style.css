@@ -74,6 +74,16 @@ footer a {
     margin-bottom: 10px;
 }
 
+/* for history list to color elements: */
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+/* end*/
+
 .score {
     margin-left: 3px;
 }
