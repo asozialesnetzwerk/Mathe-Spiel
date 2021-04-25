@@ -22,9 +22,18 @@ footer a {
     color: #CD0000;
 }
 
+.clickable {
+    user-select: none;
+    cursor: pointer;
+}
+.clickable:hover {
+    transform: scale(1.01);
+}
+
 #problem {
     font-size: 32px;
     text-align: center;
+    user-select: none;
 }
 
 .button-container {
@@ -102,7 +111,7 @@ footer a {
 .start-button {
     border-color: darkred;
     border-radius: 15px;
-    border-width: 1px;
+    border-width: 3px;
 
     background-color: #333;
 
@@ -120,6 +129,7 @@ footer a {
     }
     .field {
         width: 48%;
+        height: 2em;
     }
 }
 
