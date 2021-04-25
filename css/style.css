@@ -31,7 +31,7 @@ footer a {
 }
 
 #problem {
-    font-size: 32px;
+    font-size: 38px;
     text-align: center;
     user-select: none;
 }
@@ -50,19 +50,14 @@ footer a {
     flex-direction: column;
 }
 
-.row {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-around;
-}
-
 .field {
-    padding: 5px;
-    margin: 2px;
     border: 2px grey;
     text-align: center;
     font-size: 33px;
     height: auto;
+    width: 70%;
+    margin: 5px auto;
+    padding: 10px;
 }
 
 .grey-bg {
@@ -123,31 +118,11 @@ footer a {
     flex-direction: column;
 }
 
-@media (orientation:landscape) {
-    .row {
-        flex-direction: row;
-    }
-    .field {
-        width: 48%;
-        height: 2em;
-    }
+#game {
+    top: 50%;
+    transform: translateY(50%);
 }
 
-@media (orientation:portrait) {
-    .row {
-        flex-direction: column;
-    }
-
-    .field {
-        width: 70%;
-        margin: 5px auto;
-    }
-
-    #game {
-        top: 50%;
-        transform: translateY(50%);
-    }
-}
 
 
 /* snack bar ( https://www.w3schools.com/howto/howto_js_snackbar.asp ) */
