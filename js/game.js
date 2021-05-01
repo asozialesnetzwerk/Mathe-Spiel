@@ -3,8 +3,8 @@ const fields = document.getElementsByClassName("field");
 const progressbar = document.getElementById("progressbar");
 const snackBar = document.getElementById("snackbar");
 
-const reversedOperators = ["-", "+", "/", "*"];
-const operators = ["+", "-", "*", "/"];
+const reversedOperators = ["-", "+", "/", "×"];
+const operators = ["+", "-", "×", "/"];
 
 let history;
 let score = getIntFromLocalStorage("score");
