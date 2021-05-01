@@ -171,7 +171,7 @@ function calculateOperation(n1, n2, op) {
             obj.sol = n1 - n2;
             break;
         }
-        case "*": {
+        case "×": {
             obj.sol = n1 * n2;
             break;
         }
